@@ -2,14 +2,16 @@
     
     <input v-model="text" id="input">
     <input type="button" value="Pridaj" @click="appendToList()">
+    
     <div class="cointainer">
         <div class="row" v-for="i in items.length" :key="i">
-            <div v-if="visible[i-1]==1" class="item">
+            <div v-if="visible[i-1]==visibility" class="item">
                 <Item  :name=items[i-1]></Item>
-                <input type="button" value="Odober" @click="removeFromVisible(i-1)">
+                <input v-if="visibility ==1" type="button" value="Odober" @click="removeFromVisible(i-1)">
             </div>
         </div>
     </div> 
+    <button @click="seeRemoved()"> {{buttonName}} </button>
 </template>
   
 <script >
@@ -24,7 +26,8 @@ export default {
             items: [],
             visible: [],
             text: '',
-            
+            buttonName: 'See History',
+            visibility: 1
         };
     }, 
     methods: {
@@ -35,7 +38,18 @@ export default {
 
         removeFromVisible(index){
             this.visible[index] = 0
+        },
+        seeRemoved(){
+            if(this.visibility == 1){
+                this.visibility = 0
+                this.buttonName = 'See toDo'
+            }else{
+                this.visibility = 1
+                this.buttonName = 'See Removed'
+            }
+
         }
+        
        
 
 
