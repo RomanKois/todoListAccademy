@@ -11,7 +11,7 @@
             </div>
         </div>
     </div> 
-    <button @click="seeRemoved()"> {{buttonName}} </button>
+    <button class = "btn" @click="seeRemoved()"> {{buttonName}} </button>
 </template>
   
 <script >
@@ -34,6 +34,7 @@ export default {
         appendToList(){
             this.items.push(this.text)
             this.visible.push(1)
+            this.text = ''
         },
 
         removeFromVisible(index){
@@ -49,10 +50,6 @@ export default {
             }
 
         }
-        
-       
-
-
     }
 };
 </script>
@@ -66,4 +63,8 @@ export default {
     margin-top: 10px;
 }
 
+
+.btn{
+    margin-top: 10px;
+}
 </style>
