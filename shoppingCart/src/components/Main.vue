@@ -1,14 +1,15 @@
 <template>
-    
-    <input v-model="text" id="input">
+    <div class="container getpost">
+        <div class="row">
+            <button class="btn" @click="get">Get</button>
+            <button class="btn" @click="post">Post</button>
+        </div>
+    </div>
+    <input v-model="text" id="input" class="input">
     <input type="button" value="Pridaj" @click="appendToList()">
-    
     <div class="cointainer">
         <div class="row" v-for="i in items.length" :key="i">
-            <div v-if="visible[i-1]==visibility" class="item">
-                <Item  :name=items[i-1]></Item>
-                <input v-if="visibility ==1" type="button" value="Odober" @click="removeFromVisible(i-1)">
-            </div>
+                <Item  :name=items[i-1] :visibility=this.visibility></Item>
         </div>
     </div> 
     <button class = "btn" @click="seeRemoved()"> {{buttonName}} </button>
@@ -16,6 +17,10 @@
   
 <script >
 import Item from './Item.vue';
+import axios from 'axios'
+import { onMounted } from 'vue';
+
+
 export default {
     name: "main",
     components: {
@@ -24,32 +29,36 @@ export default {
     data() {
         return {
             items: [],
-            visible: [],
             text: '',
             buttonName: 'See History',
-            visibility: 1
+            visibility: true
         };
     }, 
     methods: {
+        async get(){
+            let temp = await axios.get('/public/mock/mocks/api/items/1.json')
+            this.items = temp.data
+        },
+        async post(){
+            axios.post('/public/mock/mocks/api/items/1.json', JSON.stringify(this.items))
+        },
         appendToList(){
             this.items.push(this.text)
-            this.visible.push(1)
             this.text = ''
-        },
-
-        removeFromVisible(index){
-            this.visible[index] = 0
-        },
+        },      
         seeRemoved(){
-            if(this.visibility == 1){
-                this.visibility = 0
+            if(this.visibility){
+                this.visibility = false
                 this.buttonName = 'See toDo'
             }else{
-                this.visibility = 1
+                this.visibility = true
                 this.buttonName = 'See Removed'
             }
 
         }
+    },mounted(){
+        this.get()
+
     }
 };
 </script>
@@ -65,6 +74,14 @@ export default {
 
 
 .btn{
-    margin-top: 10px;
+    margin: 10px;
+}
+
+.input{
+    margin-right: 10px;
+}
+
+.getpost{
+    margin: 10px;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
-    <div >
+    <div v-if="visible==visibility" class="item">
         <h4 class="text-center">{{ name }}</h4>
+        <input v-if="visibility == true" type="button" value="Odober" @click="removeFromVisible()">
     </div>
 </template>
   
@@ -8,14 +9,18 @@
 export default {
     name: "item",
     props: {
-        name: String
+        name: String,
+        visibility: Boolean
     },
     data() {
         return {
-
+            visible: true,
         };
     },
     methods: {
+        removeFromVisible(){
+            this.visible = false
+        },
     }
 };
 </script>
