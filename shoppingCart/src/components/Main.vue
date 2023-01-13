@@ -1,25 +1,24 @@
 <template>
     <div class="container getpost">
         <div class="row">
-            <button class="btn" @click="get">Get</button>
-            <button class="btn" @click="post">Post</button>
+            <button class="btn" @click="$store.dispatch('get')">Get</button>
+            <button class="btn" @click="$store.dispatch('post')">Post</button>
+            <p>Pocet nezmazanych prvkov: {{count}}</p>
         </div>
     </div>
     <input v-model="text" id="input" class="input">
     <input type="button" value="Pridaj" @click="appendToList()">
     <div class="cointainer">
-        <div class="row" v-for="i in items.length" :key="i">
-                <Item  :name=items[i-1] :visibility=this.visibility></Item>
+        <div class="row" v-for="i in length" :key="i">
+            <Item  :name=$store.state.items[i-1] :visibility=$store.state.visibility></Item>
+                
         </div>
     </div> 
-    <button class = "btn" @click="seeRemoved()"> {{buttonName}} </button>
+    <button class = "btn" @click="seeRemoved()"> {{$store.state.buttonName}} </button>
 </template>
   
 <script >
 import Item from './Item.vue';
-import axios from 'axios'
-import { onMounted } from 'vue';
-
 
 export default {
     name: "main",
@@ -28,37 +27,27 @@ export default {
     },
     data() {
         return {
-            items: [],
             text: '',
-            buttonName: 'See History',
-            visibility: true
         };
+    },computed:{
+        length(){return this.$store.state.items.length},
+        count(){return this.$store.state.count }
     }, 
-    methods: {
-        async get(){
-            let temp = await axios.get('/public/mock/mocks/api/items/1.json')
-            this.items = temp.data
-        },
-        async post(){
-            axios.post('/public/mock/mocks/api/items/1.json', JSON.stringify(this.items))
-        },
+    methods: {  
         appendToList(){
-            this.items.push(this.text)
-            this.text = ''
+            this.$store.commit('changeText', this.text)
+            this.$store.commit('appendToList')
+            this.text = this.$store.state.text
+            this.$store.commit('increment')
         },      
         seeRemoved(){
-            if(this.visibility){
-                this.visibility = false
-                this.buttonName = 'See toDo'
-            }else{
-                this.visibility = true
-                this.buttonName = 'See Removed'
-            }
-
+           this.$store.commit('seeRemoved')
         }
     },mounted(){
-        this.get()
-
+        this.$store.dispatch('get')
+        console.log(this.$store.state.items)
+        this.$store.commit('getLength')
+        
     }
 };
 </script>
@@ -66,7 +55,7 @@ export default {
 <style scoped>
 .item{
     width: 60%;
-    height: 5rem;
+    height: 8rem;
     background-color: rgb(59, 59, 59);
     margin: 0 auto;
     margin-top: 10px;

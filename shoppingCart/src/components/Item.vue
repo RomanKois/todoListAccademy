@@ -2,7 +2,13 @@
     <div v-if="visible==visibility" class="item">
         <h4 class="text-center">{{ name }}</h4>
         <input v-if="visibility == true" type="button" value="Odober" @click="removeFromVisible()">
+        <input v-if="visibility == false" type="button" value="Pridaj" @click="addToVisible()">
+
+        <input v-model="changeText" id="input" class="input">
+        <input  type="button" value="Zmen nazov" @click="change()">
+    
     </div>
+
 </template>
   
 <script >
@@ -16,6 +22,7 @@ export default {
     data() {
         return {
             visible: true,
+            changeText: ''
         };
     },
     methods: {
@@ -24,8 +31,19 @@ export default {
         },
         removeFromVisible(){
             this.visible = false
+            this.$store.commit('decrement')
             this.post()
         },
+        addToVisible(){
+            this.visible = true
+            this.$store.commit('increment')
+            this.post()
+        },
+        change(){
+            this.$store.commit('change', [this.name, this.changeText])
+            this.changeText = ''
+
+        }
     }
 };
 </script>
