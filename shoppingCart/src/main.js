@@ -4,9 +4,16 @@ import App from './App.vue'
 import w from './plugins/w/w'
 import mocks from './plugins/w/moxios'
 import axios from 'axios'
+// import { createStore } from 'vuex'
 
 
-// const axios = w
+// const store = createStore({
+//     state (){
+
+//     }
+// })
+
+
 
 createApp(App).mount('#app').use(w).use(mocks, {
     routes: {

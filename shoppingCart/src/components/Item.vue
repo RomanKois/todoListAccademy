@@ -6,6 +6,7 @@
 </template>
   
 <script >
+import axios from 'axios';
 export default {
     name: "item",
     props: {
@@ -18,8 +19,12 @@ export default {
         };
     },
     methods: {
+        async post(){
+            axios.post('/public/mock/mocks/api/items/1.json', JSON.stringify(this.name))
+        },
         removeFromVisible(){
             this.visible = false
+            this.post()
         },
     }
 };
