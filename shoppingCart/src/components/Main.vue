@@ -9,8 +9,8 @@
     <input v-model="text" id="input" class="input">
     <input type="button" value="Pridaj" @click="appendToList()">
     <div class="cointainer">
-        <div class="row" v-for="i in length" :key="i">
-            <Item  :name=$store.state.items[i-1] :visibility=$store.state.visibility></Item>
+        <div class="row" v-for="i in items.length" :key="i">
+            <Item  :name=items[i-1] ></Item>
                 
         </div>
     </div> 
@@ -28,25 +28,24 @@ export default {
     data() {
         return {
             text: '',
+            
         };
     },computed:{
-        length(){return this.$store.state.items.length},
-        count(){return this.$store.state.count }
+        count(){return this.$store.state.count },
+        items(){return this.$store.state.array}
     }, 
     methods: {  
         appendToList(){
-            this.$store.commit('changeText', this.text)
-            this.$store.commit('appendToList')
+
+            this.$store.dispatch('add', this.text)
             this.text = this.$store.state.text
-            this.$store.commit('increment')
+            this.$store.dispatch('post')
         },      
         seeRemoved(){
            this.$store.commit('seeRemoved')
         }
     },mounted(){
-        this.$store.dispatch('get')
-        console.log(this.$store.state.items)
-        this.$store.commit('getLength')
+        this.$store.dispatch('init')
         
     }
 };
