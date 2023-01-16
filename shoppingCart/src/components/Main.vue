@@ -31,8 +31,8 @@ export default {
             
         };
     },computed:{
-        count(){return this.$store.state.count },
-        items(){return this.$store.state.array}
+        count(){return this.$store.getters.getCount },
+        items(){return this.$store.getters.getArray}
     }, 
     methods: {  
         appendToList(){

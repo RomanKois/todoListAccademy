@@ -13,6 +13,14 @@ const store = createStore({
       visibility: true,
     };
   },
+  getters:{
+    getCount: state => {
+      return state.count
+    },
+    getArray: state =>{
+      return state.array
+    }
+  },
   mutations: {
     getLength(state) {
       state.count = state.items.length;
@@ -57,8 +65,15 @@ const store = createStore({
         state.deleted = tempD
     },
     change(state, changeText){
+      if(state.array == state.items){
         let index = state.items.indexOf(changeText[0])
         state.items[index] = changeText[1]
+        state.array = state.items
+      }else{
+        let index = state.deleted.indexOf(changeText[0])
+        state.deleted[index] = changeText[1]
+        state.array = state.deleted
+      }
     },
     postItems(state){
         localStorage.setItem('items', JSON.stringify(state.items))
@@ -110,6 +125,10 @@ const store = createStore({
     addRemoved(state, name){
         this.commit('removeFromDelAddToItem', name)
         this.commit('postItems')
+    },
+    changeName(state, names){
+      this.commit('change', names)
+      this.commit('postItems')
     }
 
   },

@@ -31,7 +31,7 @@ export default {
             this.$store.dispatch('addRemoved', this.name)
         },
         change(){
-            this.$store.commit('change', [this.name, this.changeText])
+            this.$store.dispatch('changeName', [this.name, this.changeText])
             this.changeText = ''
 
         }
