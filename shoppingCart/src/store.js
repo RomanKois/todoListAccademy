@@ -95,6 +95,7 @@ const store = createStore({
             state.deleted.splice(index,1)
             state.items.push(temp)
         }
+        state.count++
     },
     init(state){
         state.array = state.items
