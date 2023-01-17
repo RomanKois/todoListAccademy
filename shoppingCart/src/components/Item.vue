@@ -1,8 +1,8 @@
 <template>
     <div class="item">
         <h4 class="text-center">{{ name }}</h4>
-        <input v-if="$store.getters.getVisibility == true" type="button" value="Odober" @click="removeFromVisible()">
-        <input v-if="$store.getters.getVisibility == false" type="button" value="Pridaj" @click="addToVisible()">
+        <input v-if="visibility == true" type="button" value="Odober" @click="removeFromVisible()">
+        <input v-if="visibility == false" type="button" value="Pridaj" @click="addToVisible()">
 
         <input v-model="changeText" id="input" class="input">
         <input type="button" value="Zmen nazov" @click="change()">

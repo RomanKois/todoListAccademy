@@ -3,18 +3,18 @@
         <div class="row">
             <button class="btn" @click="$store.dispatch('get')">Get</button>
             <button class="btn" @click="$store.dispatch('post')">Post</button>
-            <p>Pocet nezmazanych prvkov: {{ count }}</p>
+            <p>Pocet nezmazanych prvkov: {{count}}</p>
         </div>
     </div>
     <input v-model="text" id="input" class="input">
     <input type="button" value="Pridaj" @click="appendToList()">
     <div class="cointainer">
         <div class="row" v-for="i in items.length" :key="i">
-            <Item :name=items[i - 1]></Item>
-
+            <Item  :name=items[i-1] ></Item>
+                
         </div>
-    </div>
-    <button class="btn" @click="seeRemoved()"> {{ $store.state.buttonName }} </button>
+    </div> 
+    <button class = "btn" @click="seeRemoved()"> {{$store.state.buttonName}} </button>
 </template>
   
 <script >
@@ -28,31 +28,31 @@ export default {
     data() {
         return {
             text: '',
-
+            
         };
-    }, computed: {
-        count() { return this.$store.getters.getCount },
-        items() { return this.$store.getters.getArray }
-    },
-    methods: {
-        appendToList() {
+    },computed:{
+        count(){return this.$store.getters.getCount },
+        items(){return this.$store.getters.getArray}
+    }, 
+    methods: {  
+        appendToList(){
 
             this.$store.dispatch('add', this.text)
             this.text = this.$store.state.text
             this.$store.dispatch('post')
-        },
-        seeRemoved() {
-            this.$store.commit('seeRemoved')
+        },      
+        seeRemoved(){
+           this.$store.commit('seeRemoved')
         }
-    }, mounted() {
+    },mounted(){
         this.$store.dispatch('init')
-
+        
     }
 };
 </script>
   
 <style scoped>
-.item {
+.item{
     width: 60%;
     height: 8rem;
     background-color: rgb(59, 59, 59);
@@ -61,15 +61,15 @@ export default {
 }
 
 
-.btn {
+.btn{
     margin: 10px;
 }
 
-.input {
+.input{
     margin-right: 10px;
 }
 
-.getpost {
+.getpost{
     margin: 10px;
 }
 </style>
