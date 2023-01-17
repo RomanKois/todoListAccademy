@@ -1,12 +1,12 @@
 <template>
-    <div  class="item">
+    <div class="item">
         <h4 class="text-center">{{ name }}</h4>
-        <input v-if="$store.state.visibility == true" type="button" value="Odober" @click="removeFromVisible()">
-        <input v-if="$store.state.visibility == false" type="button" value="Pridaj" @click="addToVisible()">
+        <input v-if="$store.getters.getVisibility == true" type="button" value="Odober" @click="removeFromVisible()">
+        <input v-if="$store.getters.getVisibility == false" type="button" value="Pridaj" @click="addToVisible()">
 
         <input v-model="changeText" id="input" class="input">
-        <input  type="button" value="Zmen nazov" @click="change()">
-    
+        <input type="button" value="Zmen nazov" @click="change()">
+
     </div>
 
 </template>
@@ -23,14 +23,17 @@ export default {
             changeText: ''
         };
     },
+    computed: {
+        visibility() { return this.$store.getters.getVisibility }
+    },
     methods: {
-        removeFromVisible(){
+        removeFromVisible() {
             this.$store.dispatch('remove', this.name)
         },
-        addToVisible(){
+        addToVisible() {
             this.$store.dispatch('addRemoved', this.name)
         },
-        change(){
+        change() {
             this.$store.dispatch('changeName', [this.name, this.changeText])
             this.changeText = ''
 
@@ -40,6 +43,5 @@ export default {
 </script>
   
 <style scoped>
-
 
 </style>
